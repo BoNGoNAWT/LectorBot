@@ -25,10 +25,42 @@ client.on("ready", () => {
 });
 
 client.on('guildMemberAdd', async member => {
-    let guild = client.guilds.cache.get('574562310836977675');
-    let role = guild.roles.chahe.get('838291222271229953');
 
+    let role = member.guild.roles.cache.get('838291222271229953');
     await member.roles.add(role);
+
+
+    let log = new MessageEmbed()
+    .setColor('BLUE')
+    .setTimestamp()
+    .setThumbnail(member.user.displayAvatarURL({dynamic: true}))
+    .setAuthor('К нам присоединился еще один потрясающий человек!', 'https://i.gifer.com/origin/64/64d36849f206dd058f1ca53ee2216d7d_w200.gif')
+    .addField(`Информация о пользователе:`, `Тег: <@${member.user.id}> \nДата создания аккаунта: ${member.user.createdAt} \nID: ${member.user.id}`)
+    .setFooter(`DARK SIDE | На сервере ${member.guild.memberCount} воинов`, member.guild.iconURL({dynamic: true}))
+    member.guild.channels.cache.get('887360711087521803').send(log);
+
+    let j = new MessageEmbed()
+    .setColor('#082215')
+    .setTimestamp()
+    .setThumbnail('https://i.gifer.com/origin/64/64d36849f206dd058f1ca53ee2216d7d_w200.gif')
+    .setAuthor('К нам присоединился еще один потрясающий человек!', 'https://i.gifer.com/origin/64/64d36849f206dd058f1ca53ee2216d7d_w200.gif')
+    .addField(`Поприветствуем нового друга!`, `Новый воин: <@${member.user.id}> \nСпонсор сервера: <#760452201755181106> \nСообщить о нарушителе: !report`)
+    .setFooter(`DARK SIDE | На сервере ${member.guild.memberCount} воинов`, member.guild.iconURL({dynamic: true}))
+    member.guild.channels.cache.get("580777505057931285").send(j).then(msg => {
+        msg.delete({ timeout: 10000 })
+      })
+      .catch(console.error);
+});
+
+client.on('guildMemberRemove', async member => {
+    let log = new MessageEmbed()
+    .setColor('RED')
+    .setTimestamp()
+    .setThumbnail(member.user.displayAvatarURL({dynamic: true}))
+    .setAuthor('Нас покинули ;(', 'https://66.media.tumblr.com/tumblr_macxcpSHgz1rfjowdo1_500.gif')
+    .addField(`Информация о пользователе:`, `Тег: <@${member.user.id}> \nID: ${member.user.id}`)
+    .setFooter(`DARK SIDE | На сервере ${member.guild.memberCount} воинов`, member.guild.iconURL({dynamic: true}))
+    member.guild.channels.cache.get('887360711087521803').send(log);
 });
 
 client.on("messageReactionAdd", async (reaction, user) => {
