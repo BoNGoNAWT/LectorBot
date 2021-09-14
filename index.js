@@ -24,6 +24,13 @@ client.on("ready", () => {
     client.user.setActivity("в пустоту", {type: "WATCHING"});
 });
 
+client.on('guildMemberAdd', async member => {
+    let guild = client.guilds.cache.get('574562310836977675');
+    let role = guild.roles.chahe.get('838291222271229953');
+
+    await member.roles.add(role.id)
+});
+
 client.on("messageReactionAdd", async (reaction, user) => {
     if(reaction.message.id == '798911162829242399'){
         const { guild }= reaction.message
