@@ -28,7 +28,7 @@ client.on('guildMemberAdd', async member => {
     let guild = client.guilds.cache.get('574562310836977675');
     let role = guild.roles.chahe.get('838291222271229953');
 
-    await member.roles.add(role.id)
+    await member.roles.add(role)
 });
 
 client.on("messageReactionAdd", async (reaction, user) => {
