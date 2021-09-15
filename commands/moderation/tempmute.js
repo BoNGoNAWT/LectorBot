@@ -67,7 +67,7 @@ module.exports = {
             .setTimestamp()
             .setAuthor(`Срок наказания истёк`, 'http://24.media.tumblr.com/6413df74acc18da04085d684347a1c91/tumblr_mxtpjcbJoM1sbjscfo1_400.gif')
             .setDescription(`Наказание снято с пользователя ${user}`)
-            .setFooter('DARK SIDE | Надеюсь он больше не будете нарушать', msg.guild.iconURL({dynamic: true}))
+            .setFooter('DARK SIDE | Надеюсь он юольше не будете нарушать', msg.guild.iconURL({dynamic: true}))
             msg.channel.send(unmute);
 
         }, time);

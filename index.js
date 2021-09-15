@@ -1,4 +1,5 @@
 const { Client, Collection, MessageEmbed } = require("discord.js");
+const voiceCollection = new Collection();
 
 const prefix = "!";
 
@@ -10,9 +11,6 @@ const client = new Client({
 client.commands = new Collection();
 client.aliases = new Collection();
 
-/*config({
-    path: __dirname + "/.env"
-});*/
 
 ["command"].forEach(handler => {
     require(`./handlers/${handler}`)(client);
@@ -24,46 +22,6 @@ client.on("ready", () => {
     client.user.setActivity("в пустоту", {type: "WATCHING"});
 });
 
-client.on('guildMemberAdd', async member => {
-
-    let role = member.guild.roles.cache.get('838291222271229953');
-    await member.roles.add(role);
-
-
-    let log = new MessageEmbed()
-    .setColor('BLUE')
-    .setTimestamp()
-    .setThumbnail(member.user.displayAvatarURL({dynamic: true}))
-    .setAuthor('К нам присоединился еще один потрясающий человек!', 'https://i.gifer.com/origin/64/64d36849f206dd058f1ca53ee2216d7d_w200.gif')
-    .addField(`Информация о пользователе:`, `Тег: <@${member.user.id}> \nДата создания аккаунта: ${member.user.createdAt} \nID: ${member.user.id}`)
-    .setFooter(`DARK SIDE | На сервере ${member.guild.memberCount} воинов`, member.guild.iconURL({dynamic: true}))
-    member.guild.channels.cache.get('887360711087521803').send(log);
-
-    let j = new MessageEmbed()
-    .setColor('#082215')
-    .setTimestamp()
-    .setThumbnail('https://i.gifer.com/origin/64/64d36849f206dd058f1ca53ee2216d7d_w200.gif')
-    .setAuthor('К нам присоединился еще один потрясающий человек!', 'https://i.gifer.com/origin/64/64d36849f206dd058f1ca53ee2216d7d_w200.gif')
-    .addField(`Поприветствуем нового друга!`, `Новый воин: <@${member.user.id}> \nСпонсор сервера: <#760452201755181106> \nСообщить о нарушителе: !report`)
-    .setFooter(`DARK SIDE | На сервере ${member.guild.memberCount} воинов`, member.guild.iconURL({dynamic: true}))
-    member.guild.channels.cache.get("580777505057931285").send(j).then(msg => {
-        msg.delete({ timeout: 10000 })
-      })
-      .catch(console.error);
-});
-
-client.on('guildMemberRemove', async member => {
-    let log = new MessageEmbed()
-    .setColor('RED')
-    .setTimestamp()
-    .setThumbnail(member.user.displayAvatarURL({dynamic: true}))
-    .setAuthor('Нас покинули ;(', 'https://66.media.tumblr.com/tumblr_macxcpSHgz1rfjowdo1_500.gif')
-    .addField(`Информация о пользователе:`, `Тег: <@${member.user.id}> \nID: ${member.user.id}`)
-    .setFooter(`DARK SIDE | На сервере ${member.guild.memberCount} воинов`, member.guild.iconURL({dynamic: true}))
-    member.guild.channels.cache.get('887360711087521803').send(log);
-});
-
-})
 
 client.on("message", async message => {
 
@@ -112,6 +70,61 @@ client.on('messageUpdate', async(oldMessage, newMessage) =>{
             .addField('Информация:', `Автор: ${oldMessage.author.tag} \nКанал: ${oldMessage.channel.name} \nСтарое сообщение: ${oldMessage.content} \nНовое сообщене: ${newMessage.content}`)
             .setTimestamp()
             await chan.send(embed1);
+});
+
+client.on('guildMemberAdd', async member => {
+
+    let role = member.guild.roles.cache.get('838291222271229953');
+    await member.roles.add(role);
+
+
+    let log = new MessageEmbed()
+    .setColor('BLUE')
+    .setTimestamp()
+    .setThumbnail(member.user.displayAvatarURL({dynamic: true}))
+    .setAuthor('К нам присоединился еще один потрясающий человек!', 'https://i.gifer.com/origin/64/64d36849f206dd058f1ca53ee2216d7d_w200.gif')
+    .addField(`Информация о пользователе:`, `Тег: <@${member.user.id}> \nДата создания аккаунта: ${member.user.createdAt} \nID: ${member.user.id}`)
+    .setFooter(`DARK SIDE | На сервере ${member.guild.memberCount} воинов`, member.guild.iconURL({dynamic: true}))
+    member.guild.channels.cache.get('887360711087521803').send(log);
+
+    let j = new MessageEmbed()
+    .setColor('#082215')
+    .setTimestamp()
+    .setThumbnail('https://i.gifer.com/origin/64/64d36849f206dd058f1ca53ee2216d7d_w200.gif')
+    .setAuthor('К нам присоединился еще один потрясающий человек!', 'https://i.gifer.com/origin/64/64d36849f206dd058f1ca53ee2216d7d_w200.gif')
+    .addField(`Поприветствуем нового друга!`, `Новый воин: <@${member.user.id}> \nСпонсор сервера: <#760452201755181106> \nСообщить о нарушителе: !report`)
+    .setFooter(`DARK SIDE | На сервере ${member.guild.memberCount} воинов`, member.guild.iconURL({dynamic: true}))
+    member.guild.channels.cache.get("580777505057931285").send(j).then(msg => {
+        msg.delete({ timeout: 10000 })
+      })
+      .catch(console.error);
+});
+
+client.on('guildMemberRemove', async member => {
+    let log = new MessageEmbed()
+    .setColor('RED')
+    .setTimestamp()
+    .setThumbnail(member.user.displayAvatarURL({dynamic: true}))
+    .setAuthor('Нас покинули ;(', 'https://66.media.tumblr.com/tumblr_macxcpSHgz1rfjowdo1_500.gif')
+    .addField(`Информация о пользователе:`, `Тег: <@${member.user.id}> \nID: ${member.user.id}`)
+    .setFooter(`DARK SIDE | На сервере ${member.guild.memberCount} воинов`, member.guild.iconURL({dynamic: true}))
+    member.guild.channels.cache.get('887360711087521803').send(log);
+});
+
+client.on('voiceStateUpdate', async(oldState, newState) =>{
+    const user = await client.users.fetch(newState.id);
+    const member = newState.guild.member(user);
+
+    if(!oldState.channel && newState.channel.id === '887606706710937630'){
+        const channel = await newState.guild.channels.create(`логово ${user.tag}`, {
+            type: 'voice',
+            parent: newState.channel.parent,
+        });
+        member.voice.setChannel(channel);
+        voiceCollection.set(user.id, channel.id);
+    } else if(!newState.channel) {
+        if(oldState.channelID === voiceCollection.get(newState.id)) return oldState.channel.delete();
+    }
 });
 
 client.login(process.env.TOKEN);
