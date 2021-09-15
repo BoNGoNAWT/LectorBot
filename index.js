@@ -63,29 +63,6 @@ client.on('guildMemberRemove', async member => {
     member.guild.channels.cache.get('887360711087521803').send(log);
 });
 
-client.on("messageReactionAdd", async (reaction, user) => {
-    if(reaction.message.id == '798911162829242399'){
-        const { guild }= reaction.message
-        const role1 = guild.roles.cache.find((role) => role.name === 'light')
-        const role2 = guild.roles.cache.find((role) => role.name === 'dark')
-        const member = guild.members.cache.find((member) => member.id === user.id)
-
-        if(reaction.emoji.name == 'light'){
-            member.roles.remove(role2)
-            member.roles.add(role1)
-
-            console.log('done');
-
-        }
-        if(reaction.emoji.name == 'dark') {
-            member.roles.remove(role1)
-            member.roles.add(role2)
-
-            console.log('done');
-        }
-    }else{
-        return;
-    }
 })
 
 client.on("message", async message => {
@@ -113,19 +90,28 @@ client.on('messageDelete', msg =>{
     if (msg.content.startsWith(prefix)) return;
     if(!msg.partial){
         const chan = client.channels.cache.get('881218172206866573');
-        if(chan) {
-            const embed = new MessageEmbed()
-            .setColor("#ff9900")
-            .setFooter(msg.guild.name, msg.guild.iconURL())
-            .setTitle('Message Delete')
-            .addField('Автор:', msg.author.tag)
-            .addField('Канал:', msg.channel.name)
-            .addField('Сообщение:', msg.content)
-            .setThumbnail(msg.author.displayAvatarURL())
-            .setTimestamp()
+        
+        const embed = new MessageEmbed()
+        .setColor("RANDOM")
+        .setFooter('DARK SIDE', msg.guild.iconURL())
+        .setAuthor('Сообщение было удалено', 'https://img1.dreamies.de/img/337/b/siprzx5ihdp.gif')
+        .addField('Информация:', `Автор: ${msg.author.tag} \nКанал: ${msg.channel.name} \nСообщение: ${msg.content}`)
+        .setThumbnail('http://images4.fanpop.com/image/photos/19600000/SpongeBob-and-Patrick-happy-square-sponge-19674613-150-100.gif')
+        .setTimestamp()
         chan.send(embed);
-        }
     }
+});
+
+client.on('messageUpdate', async(oldMessage, newMessage) =>{
+    const chan = client.channels.cache.get('881218172206866573');
+    const embed1 = new MessageEmbed()
+            .setColor("RANDOM")
+            .setFooter('DARK SIDE', oldMessage.guild.iconURL())
+            .setThumbnail('http://images4.fanpop.com/image/photos/19600000/SpongeBob-and-Patrick-happy-square-sponge-19674613-150-100.gif')
+            .setAuthor('Сообщение было изменено', 'https://img1.dreamies.de/img/337/b/siprzx5ihdp.gif')
+            .addField('Информация:', `Автор: ${oldMessage.author.tag} \nКанал: ${oldMessage.channel.name} \nСтарое сообщение: ${oldMessage.content} \nНовое сообщене: ${newMessage.content}`)
+            .setTimestamp()
+            await chan.send(embed1);
 });
 
 client.login(process.env.TOKEN);
