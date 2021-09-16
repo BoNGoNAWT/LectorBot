@@ -1,8 +1,8 @@
-const { Client, Collection, MessageEmbed } = require("discord.js");
+const { Client, Collection, MessageEmbed, Permissions } = require("discord.js");
 const voiceCollection = new Collection();
 
 const prefix = "!";
-
+const userLinkMap = new Map();
 const client = new Client({
     disableEveryone: true,
     partials: ["MESSAGE", "CHANNEL", "REACTION"]
@@ -24,6 +24,33 @@ client.on("ready", () => {
 
 
 client.on("message", async message => {
+    
+    if(message.content.includes("discord.gg/")){
+        if(message.member.hasPermission('ADMINISTRATOR')) return;
+        message.delete()
+        const r = new MessageEmbed()
+        .setColor('RED')
+        .setTimestamp()
+        .setTitle('На данном сервере запрещена реклама!')
+        .setAuthor('Была обнаружена реклама', 'https://static.wikia.nocookie.net/spongebob/images/4/4e/Cryingsquidward.gif/revision/latest?cb=20160331060206')
+        .addField('Информация:', `Имя пользователя: <@${message.author.id}>`)
+        .setThumbnail(message.author.displayAvatarURL({dinamic: true}))
+        .setFooter(`DARK SIDE | Если наказание было выдано по ишибке - обратитесь к Администратору`, message.guild.iconURL({dynamic: true}))
+        message.channel.send(r).then(message => {
+            message.delete({ timeout: 10000 })
+          })
+          .catch(console.error);
+        
+        var role = message.guild.roles.cache.find(r => r.name === 'Безмолвие');
+        var channel = message.guild.channels.cache.find(c => c.name === "реклама");
+        const emb = new MessageEmbed()
+        .setColor('RED')
+        .setAuthor('Была обнаружена реклама', 'https://static.wikia.nocookie.net/spongebob/images/4/4e/Cryingsquidward.gif/revision/latest?cb=20160331060206')
+        .addField('Информация:', `Имя пользователя; ${message.author.tag} \nID: ${message.author.id} \nРекламное сообщение: ${message.content}`)
+        .setThumbnail(message.author.displayAvatarURL({dinamic: true}))
+        channel.send(emb);
+        message.member.roles.add(role);
+    }
 
     if (message.author.bot) return;
     if (!message.guild) return;
@@ -44,6 +71,7 @@ client.on("message", async message => {
 
 
 client.on('messageDelete', msg =>{
+    if (msg.content.includes("discord.gg/")) return;
     if (msg.author.bot) return;
     if (msg.content.startsWith(prefix)) return;
     if(!msg.partial){
@@ -61,6 +89,7 @@ client.on('messageDelete', msg =>{
 });
 
 client.on('messageUpdate', async(oldMessage, newMessage) =>{
+    if (oldMessage.author.bot) return;
     const chan = client.channels.cache.get('881218172206866573');
     const embed1 = new MessageEmbed()
             .setColor("RANDOM")
