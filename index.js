@@ -1,5 +1,6 @@
 const { Client, Collection, MessageEmbed, Permissions } = require("discord.js");
 const voiceCollection = new Collection();
+var ms = require("ms");
 
 const prefix = "!";
 const userLinkMap = new Map();
@@ -24,32 +25,46 @@ client.on("ready", () => {
 
 
 client.on("message", async message => {
-    
-    if(message.content.includes("discord.gg/")){
-        if(message.member.hasPermission('ADMINISTRATOR')) return;
+    if(message.content.includes("discord.gg/") || message.content.includes("https://") || message.content.includes("http://") || message.content.includes('www.')){
+        //if(message.member.hasPermission('ADMINISTRATOR')) return;
+        if(message.content.includes('https://tenor.com/')) return;
+        if(message.channel.id === '625787338240426014') return;
+        if(message.channel.id === '779613306922729472'){
+            if(message.content.includes('https://www.youtube.com/' || message.content.includes('www.youtube.com/'))) return;
+        }
+        if(message.channel.id === '887614602106503198'){
+            if(message.content.includes('https://www.youtube.com/') || message.content.includes('www.youtube.com/')) return;
+            if(message.content.includes('https://www.twitch.tv/' || message.content.includes('www.twitch.tv/'))) return;
+        }
         message.delete()
+        var role = message.guild.roles.cache.find(r => r.id === '882974229316923434');
+        var channel = message.guild.channels.cache.find(c => c.name === "реклама");
+
         const r = new MessageEmbed()
         .setColor('RED')
         .setTimestamp()
         .setTitle('На данном сервере запрещена реклама!')
         .setAuthor('Была обнаружена реклама', 'https://static.wikia.nocookie.net/spongebob/images/4/4e/Cryingsquidward.gif/revision/latest?cb=20160331060206')
-        .addField('Информация:', `Имя пользователя: <@${message.author.id}>`)
+        .addField('Информация:', `Имя пользователя: ${message.author.mention}`)
         .setThumbnail(message.author.displayAvatarURL({dinamic: true}))
         .setFooter(`DARK SIDE | Если наказание было выдано по ишибке - обратитесь к Администратору`, message.guild.iconURL({dynamic: true}))
         message.channel.send(r).then(message => {
             message.delete({ timeout: 10000 })
           })
           .catch(console.error);
-        
-        var role = message.guild.roles.cache.find(r => r.name === 'Безмолвие');
-        var channel = message.guild.channels.cache.find(c => c.name === "реклама");
+    
         const emb = new MessageEmbed()
         .setColor('RED')
         .setAuthor('Была обнаружена реклама', 'https://static.wikia.nocookie.net/spongebob/images/4/4e/Cryingsquidward.gif/revision/latest?cb=20160331060206')
         .addField('Информация:', `Имя пользователя; ${message.author.tag} \nID: ${message.author.id} \nРекламное сообщение: ${message.content}`)
         .setThumbnail(message.author.displayAvatarURL({dinamic: true}))
         channel.send(emb);
+
         message.member.roles.add(role);
+        setTimeout(async() => {
+            message.member.roles.remove(role);
+        }, 30*60000);
+        
     }
 
     if (message.author.bot) return;
@@ -71,7 +86,7 @@ client.on("message", async message => {
 
 
 client.on('messageDelete', msg =>{
-    if (msg.content.includes("discord.gg/")) return;
+    if (msg.content.includes("discord.gg/") || msg.content.includes("https://") || msg.content.includes("http://") || msg.content.includes('www.')) return;
     if (msg.author.bot) return;
     if (msg.content.startsWith(prefix)) return;
     if(!msg.partial){
@@ -144,7 +159,7 @@ client.on('voiceStateUpdate', async(oldState, newState) =>{
     const user = await client.users.fetch(newState.id);
     const member = newState.guild.member(user);
 
-    if(!oldState.channel && newState.channel.id === '887606706710937630'){
+    if(!oldState.channel && newState.channel.id === '888335683746418718'){
         const channel = await newState.guild.channels.create(`логово ${user.tag}`, {
             type: 'voice',
             parent: newState.channel.parent,
