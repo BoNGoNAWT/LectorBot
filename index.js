@@ -27,7 +27,7 @@ client.on("ready", () => {
 client.on("message", async message => {
     if(message.content.includes("discord.gg/") || message.content.includes("https://") || message.content.includes("http://") || message.content.includes('www.')){
         if(message.member.hasPermission('ADMINISTRATOR')) return;
-        if(message.content.includes('https://tenor.com/')) return;
+        if(message.content.includes('https://tenor.com/') || message.content.includes('https://media.discordapp.net/')) return;
         if(message.channel.id === '625787338240426014') return;
         if(message.channel.id === '779613306922729472'){
             if(message.content.includes('https://www.youtube.com/' || message.content.includes('www.youtube.com/'))) return;
