@@ -1,6 +1,7 @@
 const { Client, Collection, MessageEmbed, Permissions } = require("discord.js");
 const voiceCollection = new Collection();
 var ms = require("ms");
+const quick = require('quick.db');
 
 const prefix = "!";
 const userLinkMap = new Map();
@@ -88,7 +89,7 @@ client.on("message", async message => {
 client.on('messageDelete', msg =>{
     if (msg.content.includes("discord.gg/") || msg.content.includes("https://") || msg.content.includes("http://") || msg.content.includes('www.')) return;
     if (msg.author.bot) return;
-    if (msg.content.startsWith(prefix)) return;
+    if (msg.content.startsWith(prefix) || msg.content.startsWith('.')) return;
     if(!msg.partial){
         const chan = client.channels.cache.get('881218172206866573');
         
@@ -105,13 +106,14 @@ client.on('messageDelete', msg =>{
 
 client.on('messageUpdate', async(oldMessage, newMessage) =>{
     if (oldMessage.author.bot) return;
+    if (oldMessage.content.includes("discord.gg/") || oldMessage.content.includes("https://") || oldMessage.content.includes("http://") || oldMessage.content.includes('www.')) return;
     const chan = client.channels.cache.get('881218172206866573');
     const embed1 = new MessageEmbed()
             .setColor("RANDOM")
             .setFooter('DARK SIDE', oldMessage.guild.iconURL())
             .setThumbnail('http://images4.fanpop.com/image/photos/19600000/SpongeBob-and-Patrick-happy-square-sponge-19674613-150-100.gif')
             .setAuthor('Сообщение было изменено', 'https://img1.dreamies.de/img/337/b/siprzx5ihdp.gif')
-            .addField('Информация:', `Автор: ${oldMessage.author.tag} \nКанал: ${oldMessage.channel.name} \nСтарое сообщение: ${oldMessage.content} \nНовое сообщене: ${newMessage.content}`)
+            .addField('Информация:', `Автор: ${oldMessage.author.tag} \nКанал: ${oldMessage.channel.name} \nСтарое сообщение: ${oldMessage.content} \nНовое сообщене: ${newMessage.content} \nСообщение: ${oldMessage.url}`)
             .setTimestamp()
             await chan.send(embed1);
 });
@@ -159,8 +161,24 @@ client.on('voiceStateUpdate', async(oldState, newState) =>{
     const user = await client.users.fetch(newState.id);
     const member = newState.guild.member(user);
 
-    if(!oldState.channel && newState.channel.id === '887606706710937630'){
-        const channel = await newState.guild.channels.create(`логово ${user.tag}`, {
+    if (!oldState.channel && newState.channel) {
+        var startTime = Date.now();
+
+        let checkBase = quick.fetch(`voiceTime.${newState.member.id}`);
+        if(checkBase == null) quick.set(`voiceTime.${newState.member.id}`, startTime);
+    }else if (!newState.channel) {
+        var endTime = Date.now();
+
+        let checkBase = quick.fetch(`voiceTime.${oldState.member.id}`);
+        if(checkBase == null) return;
+
+        let time = Math.floor(endTime - checkBase);
+
+        quick.set(`voiceTime.${oldState.member.id}`, time);
+    }
+
+    if(!oldState.channel && newState.channel.id === '888335683746418718'){
+        const channel = await newState.guild.channels.create(`🌑| логово ${user.tag}`, {
             type: 'voice',
             parent: newState.channel.parent,
         });
