@@ -28,17 +28,24 @@ client.on("ready", () => {
 client.on("message", async message => {
     if (message.channel.id === "874254762659442759"){
         if (message.content.startsWith(prefix) || message.content.startsWith('.')) return;
-        message.delete(1);
+        if (!message.author.bot) message.delete();
         const idea = new MessageEmbed()
         .setColor('PURPLE')
         .setTimestamp()
         .setFooter('DARK SIDE', message.guild.iconURL({dinamic: true}))
         .setAuthor(`Идея от ${message.author.nametag}`, message.author.displayAvatarURL({dinamic: true}))
         .addField('Идея:', message.content)
-        message.channel.send(idea).then(function (message) {
+        message.channel.send(idea)
+        .then(function (message) {
             message.react("👍")
             message.react("👎")
         });
+    }
+    if (message.channel.id === "829380781063143504") {
+        message.react("❤️")
+    }
+    if (message.channel.id === "774526646564159521") {
+        message.react("❤️")
     }
     if(message.content.includes("discord.gg/") || message.content.includes("https://") || message.content.includes("http://") || message.content.includes('www.')){
         if(message.member.hasPermission('ADMINISTRATOR')) return;
