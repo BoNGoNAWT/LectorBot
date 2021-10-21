@@ -40,12 +40,6 @@ client.on("message", async message => {
             message.react("👎")
         });
     }
-    if (message.channel.id === "829380781063143504") {
-        message.react("❤️");
-    }
-    if (message.channel.id === "774526646564159521") {
-        message.react("❤️");
-    }
     if(message.content.includes("discord.gg/") || message.content.includes("https://") || message.content.includes("http://") || message.content.includes('www.')){
         if(message.member.hasPermission('ADMINISTRATOR')) return;
         if(message.content.includes('https://tenor.com/') || message.content.includes('https://media.discordapp.net/')) return;
