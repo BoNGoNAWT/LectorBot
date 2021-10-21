@@ -26,6 +26,26 @@ client.on("ready", () => {
 
 
 client.on("message", async message => {
+    if (message.channel.id === "874254762659442759"){
+        if (message.content.startsWith(prefix) || message.content.startsWith('.')) return;
+        message.delete(1);
+        const idea = new MessageEmbed()
+        .setColor('PURPLE')
+        .setTimestamp()
+        .setFooter('DARK SIDE', message.guild.iconURL({dinamic: true}))
+        .setAuthor(`Идея от ${message.author.nametag}`, message.author.displayAvatarURL({dinamic: true}))
+        .addField('Идея:', message.content)
+        message.channel.send(idea).then(function (message) {
+            message.react("👍")
+            message.react("👎")
+        });
+    }
+    if (message.channel.id === "829380781063143504") {
+        message.react("❤️")
+    }
+    if (message.channel.id === "774526646564159521") {
+        message.react("❤️")
+    }
     if(message.content.includes("discord.gg/") || message.content.includes("https://") || message.content.includes("http://") || message.content.includes('www.')){
         if(message.member.hasPermission('ADMINISTRATOR')) return;
         if(message.content.includes('https://tenor.com/') || message.content.includes('https://media.discordapp.net/')) return;
@@ -83,6 +103,7 @@ client.on("message", async message => {
 
     if (command) 
         command.run(client, message, args);
+
 });
 
 
@@ -177,7 +198,7 @@ client.on('voiceStateUpdate', async(oldState, newState) =>{
         quick.set(`voiceTime.${oldState.member.id}`, time);
     }
 
-    if(!oldState.channel && newState.channel.id === '887606706710937630'){
+    if(!oldState.channel && newState.channel.id === '888335683746418718'){
         const channel = await newState.guild.channels.create(`🌑| логово ${user.tag}`, {
             type: 'voice',
             parent: newState.channel.parent,
