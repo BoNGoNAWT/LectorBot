@@ -178,7 +178,7 @@ client.on('voiceStateUpdate', async(oldState, newState) =>{
         quick.set(`voiceTime.${oldState.member.id}`, time);
     }
 
-    if(!oldState.channel && newState.channel.id === '888335683746418718'){
+    if(!oldState.channel && newState.channel.id === '887606706710937630'){
         const channel = await newState.guild.channels.create(`🌑| логово ${user.tag}`, {
             type: 'voice',
             parent: newState.channel.parent,
