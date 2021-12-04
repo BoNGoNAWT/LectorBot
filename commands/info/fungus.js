@@ -16,6 +16,7 @@ module.exports = {
             .setTimestamp()
             .setFooter(`DARK SIDE`, message.guild.iconURL({dynamic: true}))
             message.channel.send(funn)
+            return;
         }
         if(user.id !== message.author.id){
         var fun = new MessageEmbed()
@@ -29,6 +30,7 @@ module.exports = {
             message.delete({ timeout: 10000 })
           })
           .catch(console.error);
+        return;
         }
     }
 }
