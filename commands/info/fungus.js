@@ -7,7 +7,6 @@ module.exports = {
     run: async (client, message, args) => {
         message.delete();
         let user = message.mentions.users.first();
-        if (!user) return message.reply('Укажите тег');
         if(user.id === message.author.id){
             var funn = new MessageEmbed()
             .setAuthor('Грибомания', 'https://media.baamboozle.com/uploads/images/230671/1617448971_127957_gif-url.gif')
@@ -16,7 +15,6 @@ module.exports = {
             .setTimestamp()
             .setFooter(`DARK SIDE`, message.guild.iconURL({dynamic: true}))
             message.channel.send(funn)
-            return;
         }
         if(user.id !== message.author.id){
         var fun = new MessageEmbed()
@@ -30,7 +28,7 @@ module.exports = {
             message.delete({ timeout: 10000 })
           })
           .catch(console.error);
-        return;
+        
         }
     }
 }
