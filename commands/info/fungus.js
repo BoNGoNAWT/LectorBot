@@ -16,7 +16,8 @@ module.exports = {
             .setTimestamp()
             .setFooter(`DARK SIDE`, message.guild.iconURL({dynamic: true}))
             message.channel.send(funn)
-        }else{
+        }
+        if(user.id !== message.author.id){
         var fun = new MessageEmbed()
         .setAuthor('Грибомания', 'https://media.baamboozle.com/uploads/images/230671/1617448971_127957_gif-url.gif')
         .setDescription(`${message.author} подарил гриб пользователю ${user}`)
