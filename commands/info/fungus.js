@@ -28,6 +28,6 @@ module.exports = {
           })
           .catch(console.error);
         message.channel.send(fun);
-        }
+        } return;
     }
 }
